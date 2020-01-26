@@ -2,9 +2,9 @@ package com.example.andfactory.api
 
 import com.example.andfactory.BuildConfig
 import com.example.andfactory.api.github.GitHubService
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient

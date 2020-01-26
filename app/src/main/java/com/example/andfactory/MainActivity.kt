@@ -1,7 +1,7 @@
 package com.example.andfactory
 
 import android.os.Bundle
-import com.example.andfactory.ui.main.ProjectListFragment
+import com.example.andfactory.ui.projects.ProjectListFragment
 import dagger.android.support.DaggerAppCompatActivity
 
 class MainActivity : DaggerAppCompatActivity() {
