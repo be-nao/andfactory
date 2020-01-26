@@ -3,7 +3,7 @@ package com.example.andfactory.di.module
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.andfactory.di.ViewModelKey
-import com.example.andfactory.ui.main.ProjectListViewModel
+import com.example.andfactory.ui.projects.ProjectListViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

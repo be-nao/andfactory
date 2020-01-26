@@ -1,6 +1,7 @@
 package com.example.andfactory.di.module
 
-import com.example.andfactory.ui.main.ProjectListFragment
+import com.example.andfactory.ui.projects.ProjectListFragment
+import com.example.andfactory.ui.readme.ReadMeFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -8,4 +9,7 @@ import dagger.android.ContributesAndroidInjector
 abstract class FragmentModule {
     @ContributesAndroidInjector
     abstract fun contributeMainFragment(): ProjectListFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeReadMeFragment(): ReadMeFragment
 }

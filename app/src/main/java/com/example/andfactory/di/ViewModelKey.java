@@ -1,13 +1,14 @@
 package com.example.andfactory.di;
 
 import androidx.lifecycle.ViewModel;
-import dagger.MapKey;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import dagger.MapKey;
 
 /**
  * Workaround in Java due to Dagger/Kotlin not playing well together as of now
