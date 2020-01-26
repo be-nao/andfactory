@@ -69,10 +69,14 @@ class ProjectListFragment : DaggerFragment(), ProjectListController.RepoClickLis
         viewModel.projectList.observe(viewLifecycleOwner, Observer {
             controller.projects = it
         })
+
+        viewModel.errorObserver.observe(viewLifecycleOwner, Observer {
+            // TODO error handling
+        })
+
     }
 
     override fun onClickRepo(url: String) {
-
         if (isInternetAvailable()) {
             fragmentManager?.beginTransaction()?.addToBackStack(null)?.replace(
                 R.id.container,
@@ -83,6 +87,7 @@ class ProjectListFragment : DaggerFragment(), ProjectListController.RepoClickLis
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun isInternetAvailable(): Boolean {
         var result = false
         val connectivityManager =

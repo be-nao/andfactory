@@ -16,17 +16,20 @@ class ProjectListViewModel @Inject constructor(private val gitHubService: GitHub
     }
 
     var projectList: MutableLiveData<List<Project>> = MutableLiveData()
+    var errorObserver: MutableLiveData<Throwable> = MutableLiveData()
 
     fun loadProjectList() {
         viewModelScope.launch {
-            gitHubService.getRepositoryList(username).let {
-                if (it.isSuccessful) {
-                    projectList.postValue(it.body())
-                } else {
-                    // TODO get cached repository data
+            val response = gitHubService.getRepositoryList(username)
+            try {
+                if (response.isSuccessful) {
+                    projectList.postValue(response.body())
                 }
+            } catch (t: Throwable) {
+                errorObserver.postValue(t)
             }
         }
+
     }
 
 }
