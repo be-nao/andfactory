@@ -91,7 +91,7 @@ dependencies {
     kapt "com.airbnb.android:epoxy-processor:$epoxy_version"
 
     // Room
-    annotationProcessor "androidx.room:room-compiler:$room_ver"
+    kapt "androidx.room:room-compiler:$room_ver"
     // For Kotlin use kapt instead of annotationProcessor
     implementation "androidx.room:room-ktx:$room_ver"
     // optional - Kotlin Extensions and Coroutines support for Room

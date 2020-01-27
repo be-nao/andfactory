@@ -7,7 +7,7 @@
 
         <variable
             name="project"
-            type="com.example.andfactory.api.github.response.Project" />
+            type="com.example.andfactory.api.db.entity.Project" />
 
         <variable
             name="readne"
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@{project.repoName}"
+            android:text="@{project.name}"
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"

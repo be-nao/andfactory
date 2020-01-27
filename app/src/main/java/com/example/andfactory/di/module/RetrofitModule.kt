@@ -1,4 +1,4 @@
-package com.example.andfactory.api
+package com.example.andfactory.di.module
 
 import com.example.andfactory.BuildConfig
 import com.example.andfactory.api.github.GitHubService

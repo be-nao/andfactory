@@ -1,11 +1,7 @@
 package com.example.andfactory.di
 
 import com.example.andfactory.App
-import com.example.andfactory.api.RetrofitModule
-import com.example.andfactory.di.module.ActivityModule
-import com.example.andfactory.di.module.FragmentModule
-import com.example.andfactory.di.module.ViewModelModule
-import dagger.BindsInstance
+import com.example.andfactory.di.module.*
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
@@ -18,17 +14,14 @@ import javax.inject.Singleton
         ActivityModule::class,
         FragmentModule::class,
         ViewModelModule::class,
+        AppModule::class,
+        RoomModule::class,
         RetrofitModule::class
     ]
 )
 interface AppComponent : AndroidInjector<App> {
-    override fun inject(application: App)
 
     @Component.Builder
-    interface Builder {
-        @BindsInstance
-        fun application(application: App): Builder
+    abstract class Builder : AndroidInjector.Builder<App>()
 
-        fun build(): AppComponent
-    }
 }

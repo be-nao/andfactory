@@ -3,7 +3,7 @@ package com.example.andfactory.ui.projects
 import com.airbnb.epoxy.EpoxyController
 import com.example.andfactory.EmptyViewBindingModel_
 import com.example.andfactory.RepositoryListItemBindingModel_
-import com.example.andfactory.api.github.response.Project
+import com.example.andfactory.api.db.entity.Project
 
 class ProjectListController(private val adapterOnClick: (Any) -> Unit) : EpoxyController() {
 

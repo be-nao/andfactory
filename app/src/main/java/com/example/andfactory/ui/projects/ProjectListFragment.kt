@@ -3,7 +3,6 @@ package com.example.andfactory.ui.projects
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.net.NetworkInfo
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -71,7 +70,7 @@ class ProjectListFragment : DaggerFragment(), ProjectListController.RepoClickLis
         })
 
         viewModel.errorObserver.observe(viewLifecycleOwner, Observer {
-            // TODO error handling
+            Snackbar.make(binding.root, "エラーが起きたよ", Snackbar.LENGTH_SHORT).show()
         })
 
     }
@@ -80,10 +79,14 @@ class ProjectListFragment : DaggerFragment(), ProjectListController.RepoClickLis
         if (isInternetAvailable()) {
             fragmentManager?.beginTransaction()?.addToBackStack(null)?.replace(
                 R.id.container,
-                ReadMeFragment.newInstance("https://github.com/google/0x0g-2018-badge/blob/master/README.md")
+                ReadMeFragment.newInstance("https://github.com/google/0x0g-2018-badge")
             )?.commit()
         } else {
-            Snackbar.make(binding.root, "接続されてないよ", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(
+                binding.root,
+                getString(R.string.not_connected_to_network),
+                Snackbar.LENGTH_SHORT
+            ).show()
         }
     }
 
