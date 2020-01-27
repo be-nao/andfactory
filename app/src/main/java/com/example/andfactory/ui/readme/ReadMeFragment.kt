@@ -14,6 +14,7 @@ class ReadMeFragment : DaggerFragment() {
 
     companion object {
         const val ARGS_README_URL = "read_me_url"
+        const val READ_ME_URL = "/blob/master/README.md"
         fun newInstance(readMeUrl: String): ReadMeFragment {
             val fragment = ReadMeFragment()
             fragment.arguments = bundleOf(ARGS_README_URL to readMeUrl)
@@ -42,7 +43,7 @@ class ReadMeFragment : DaggerFragment() {
     private fun setBinding() {
         binding.apply {
             readMeWebView.apply {
-                loadUrl(this@ReadMeFragment.url)
+                loadUrl(this@ReadMeFragment.url + READ_ME_URL)
             }
         }
     }

@@ -20,10 +20,12 @@ class ProjectListViewModel @Inject constructor(private val projectRepository: Pr
 
     fun loadProjectList() {
         viewModelScope.launch {
-            val response = projectRepository.getRepositoryList(username)
-            projectList.postValue(response)
+            try {
+                val response = projectRepository.getRepositoryList(username)
+                projectList.postValue(response)
+            } catch (e: Exception) {
+                errorObserver.postValue(e)
+            }
         }
-
     }
-
 }

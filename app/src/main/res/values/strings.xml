@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">and factory</string>
+    <string name="not_connected_to_network">インターネットに接続されていません。</string>
+    <string name="error_message">接続時にエラーが起きました。</string>
 </resources>
