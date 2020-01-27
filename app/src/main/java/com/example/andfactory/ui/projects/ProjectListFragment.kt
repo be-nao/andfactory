@@ -76,49 +76,19 @@ class ProjectListFragment : DaggerFragment(), ProjectListController.RepoClickLis
     }
 
     override fun onClickRepo(url: String) {
-        if (isInternetAvailable()) {
-            fragmentManager?.beginTransaction()?.addToBackStack(null)?.replace(
-                R.id.container,
-                ReadMeFragment.newInstance("https://github.com/google/0x0g-2018-badge")
-            )?.commit()
-        } else {
-            Snackbar.make(
-                binding.root,
-                getString(R.string.not_connected_to_network),
-                Snackbar.LENGTH_SHORT
-            ).show()
-        }
-    }
-
-    @Suppress("DEPRECATION")
-    private fun isInternetAvailable(): Boolean {
-        var result = false
-        val connectivityManager =
-            context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val networkCapabilities = connectivityManager.activeNetwork ?: return false
-            val actNw =
-                connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
-            result = when {
-                actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-                actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-                actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-                else -> false
-            }
-        } else {
-            connectivityManager.run {
-                connectivityManager.activeNetworkInfo?.run {
-                    result = when (type) {
-                        ConnectivityManager.TYPE_WIFI -> true
-                        ConnectivityManager.TYPE_MOBILE -> true
-                        ConnectivityManager.TYPE_ETHERNET -> true
-                        else -> false
-                    }
-
-                }
+        context?.let {
+            if (viewModel.isInternetAvailable(it)) {
+                fragmentManager?.beginTransaction()?.addToBackStack(null)?.replace(
+                    R.id.container,
+                    ReadMeFragment.newInstance("https://github.com/google/0x0g-2018-badge")
+                )?.commit()
+            } else {
+                Snackbar.make(
+                    binding.root,
+                    getString(R.string.not_connected_to_network),
+                    Snackbar.LENGTH_SHORT
+                ).show()
             }
         }
-        return result
     }
-
 }
