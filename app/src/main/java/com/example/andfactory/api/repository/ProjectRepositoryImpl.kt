@@ -18,6 +18,6 @@ class ProjectRepositoryImpl @Inject constructor(
         projectList.forEach {
             projectDao.upsertProject(it)
         }
-        return projectDao.getAllProject()
+        return projectList
     }
 }

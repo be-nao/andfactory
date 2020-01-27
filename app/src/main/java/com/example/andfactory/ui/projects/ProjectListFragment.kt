@@ -1,6 +1,7 @@
 package com.example.andfactory.ui.projects
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,7 @@ import javax.inject.Inject
 class ProjectListFragment : DaggerFragment(), ProjectListController.RepoClickListener {
 
     companion object {
+        private val TAG = ProjectListFragment::class.java.simpleName
         fun newInstance() = ProjectListFragment()
     }
 
@@ -67,7 +69,8 @@ class ProjectListFragment : DaggerFragment(), ProjectListController.RepoClickLis
         })
 
         viewModel.errorObserver.observe(viewLifecycleOwner, Observer {
-            Snackbar.make(binding.root, it.message!!, Snackbar.LENGTH_SHORT).show()
+            Log.d(TAG, it.message)
+            Snackbar.make(binding.root, "エラーが起きたよ", Snackbar.LENGTH_SHORT).show()
         })
 
     }
@@ -77,7 +80,7 @@ class ProjectListFragment : DaggerFragment(), ProjectListController.RepoClickLis
             if (viewModel.isInternetAvailable(it)) {
                 fragmentManager?.beginTransaction()?.addToBackStack(null)?.replace(
                     R.id.container,
-                    ReadMeFragment.newInstance(project.html_url,project.default_branch)
+                    ReadMeFragment.newInstance(project.html_url, project.default_branch)
                 )?.commit()
             } else {
                 Snackbar.make(
