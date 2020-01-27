@@ -9,14 +9,15 @@ import javax.inject.Singleton
 @Singleton
 class ProjectRepositoryImpl @Inject constructor(
     private val service: GitHubService,
-    private val userDao: ProjectDao
+    private val projectDao: ProjectDao
 ) : ProjectRepository {
 
+    // TODO 本当はここでTryCatchしたい
     override suspend fun getRepositoryList(username: String): List<Project>? {
         val projectList = service.getRepositoryList(username)
         projectList.forEach {
-            userDao.upsertProject(it)
+            projectDao.upsertProject(it)
         }
-        return userDao.getAllProject()
+        return projectDao.getAllProject()
     }
 }

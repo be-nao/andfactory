@@ -7,12 +7,16 @@ import android.os.Build
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.andfactory.api.db.ProjectDao
 import com.example.andfactory.api.db.entity.Project
 import com.example.andfactory.api.repository.ProjectRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ProjectListViewModel @Inject constructor(private val projectRepository: ProjectRepository) :
+class ProjectListViewModel @Inject constructor(
+    private val projectRepository: ProjectRepository,
+    private val projectDao: ProjectDao
+) :
     ViewModel() {
 
     companion object {
@@ -29,12 +33,13 @@ class ProjectListViewModel @Inject constructor(private val projectRepository: Pr
                 projectList.postValue(response)
             } catch (e: Exception) {
                 errorObserver.postValue(e)
+                projectList.postValue(projectDao.getAllProject())
             }
         }
     }
 
     @Suppress("DEPRECATION")
-    fun isInternetAvailable(context:Context): Boolean {
+    fun isInternetAvailable(context: Context): Boolean {
         var result = false
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

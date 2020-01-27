@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.andfactory.R
+import com.example.andfactory.api.db.entity.Project
 import com.example.andfactory.databinding.RepositoryListFragmentBinding
 import com.example.andfactory.ui.readme.ReadMeFragment
 import com.google.android.material.snackbar.Snackbar
@@ -50,7 +51,7 @@ class ProjectListFragment : DaggerFragment(), ProjectListController.RepoClickLis
     }
 
     private fun setBinding() {
-        controller = ProjectListController { item -> onClickRepo(item.toString()) }
+        controller = ProjectListController(this)
         val linearLayoutManager = LinearLayoutManager(context)
         binding.apply {
             repositoryListRecyclerView.apply {
@@ -66,17 +67,17 @@ class ProjectListFragment : DaggerFragment(), ProjectListController.RepoClickLis
         })
 
         viewModel.errorObserver.observe(viewLifecycleOwner, Observer {
-            Snackbar.make(binding.root, "エラーが起きたよ", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(binding.root, it.message!!, Snackbar.LENGTH_SHORT).show()
         })
 
     }
 
-    override fun onClickRepo(url: String) {
+    override fun onClickRepo(project: Project) {
         context?.let {
             if (viewModel.isInternetAvailable(it)) {
                 fragmentManager?.beginTransaction()?.addToBackStack(null)?.replace(
                     R.id.container,
-                    ReadMeFragment.newInstance("https://github.com/google/0x0g-2018-badge")
+                    ReadMeFragment.newInstance(project.html_url,project.default_branch)
                 )?.commit()
             } else {
                 Snackbar.make(

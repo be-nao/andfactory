@@ -13,17 +13,19 @@ import dagger.android.support.DaggerFragment
 class ReadMeFragment : DaggerFragment() {
 
     companion object {
-        const val ARGS_README_URL = "read_me_url"
-        const val READ_ME_URL = "/blob/master/README.md"
-        fun newInstance(readMeUrl: String): ReadMeFragment {
+        const val ARGS_HTTP_URL = "http_url"
+        const val ARGS_DEFAULT_BRANCH = "default_branch"
+        fun newInstance(readMeUrl: String, defaultBranch: String): ReadMeFragment {
             val fragment = ReadMeFragment()
-            fragment.arguments = bundleOf(ARGS_README_URL to readMeUrl)
+            fragment.arguments =
+                bundleOf(ARGS_HTTP_URL to readMeUrl, ARGS_DEFAULT_BRANCH to defaultBranch)
             return fragment
         }
     }
 
     private lateinit var binding: ReadMeFragmemtBinding
     var url: String? = null
+    var branch: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,15 +38,20 @@ class ReadMeFragment : DaggerFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        url = arguments?.getString(ARGS_README_URL)
+        url = arguments?.getString(ARGS_HTTP_URL)
+        branch = arguments?.getString(ARGS_DEFAULT_BRANCH)
         setBinding()
     }
 
     private fun setBinding() {
         binding.apply {
             readMeWebView.apply {
-                loadUrl(this@ReadMeFragment.url + READ_ME_URL)
+                loadUrl(createReadMeUrl())
             }
         }
+    }
+
+    private fun createReadMeUrl(): String {
+        return "$url/blob/$branch/README.md"
     }
 }

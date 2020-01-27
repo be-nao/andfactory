@@ -5,10 +5,11 @@ import com.example.andfactory.EmptyViewBindingModel_
 import com.example.andfactory.RepositoryListItemBindingModel_
 import com.example.andfactory.api.db.entity.Project
 
-class ProjectListController(private val adapterOnClick: (Any) -> Unit) : EpoxyController() {
+class ProjectListController(private val callback: RepoClickListener) :
+    EpoxyController() {
 
     interface RepoClickListener {
-        fun onClickRepo(url: String)
+        fun onClickRepo(project: Project)
     }
 
     var projects: List<Project> = emptyList()
@@ -28,7 +29,9 @@ class ProjectListController(private val adapterOnClick: (Any) -> Unit) : EpoxyCo
         projects.forEach {
             RepositoryListItemBindingModel_()
                 .id(modelCountBuiltSoFar)
-                .readne(adapterOnClick)
+                .onClickRepo { _, _, _, _ ->
+                    callback.onClickRepo(it)
+                }
                 .project(it)
                 .addTo(this)
         }
