@@ -6,35 +6,32 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.viewModelScope
-import com.example.andfactory.api.db.ProjectDao
 import com.example.andfactory.api.db.entity.Project
 import com.example.andfactory.api.repository.ProjectRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class ProjectListViewModel @Inject constructor(
-    private val projectRepository: ProjectRepository,
-    private val projectDao: ProjectDao
-) :
+class ProjectListViewModel @Inject constructor(private val projectRepository: ProjectRepository) :
     ViewModel() {
 
     companion object {
-        const val username = "be-nao"
+        const val username = "google"
     }
 
-    var projectList: MutableLiveData<List<Project>> = MutableLiveData()
-    var errorObserver: MutableLiveData<Throwable> = MutableLiveData()
+    private val _projectList = MutableLiveData<Status<List<Project>>>()
+    val projectList = _projectList.distinctUntilChanged()
 
     fun loadProjectList() {
         viewModelScope.launch {
-            try {
-                val response = projectRepository.getRepositoryList(username)
-                projectList.postValue(response)
-            } catch (e: Exception) {
-                errorObserver.postValue(e)
-                projectList.postValue(projectDao.getAllProject())
+            runCatching {
+                withContext(Dispatchers.IO) { projectRepository.getRepositoryList(username) }
             }
+                .onSuccess { _projectList.value = Status.Success(it) }
+                .onFailure { _projectList.value = Status.Failure(it) }
         }
     }
 
@@ -68,4 +65,9 @@ class ProjectListViewModel @Inject constructor(
         }
         return result
     }
+}
+
+sealed class Status<out T> {
+    data class Success<T>(val data: T) : Status<T>()
+    data class Failure(val throwable: Throwable) : Status<Nothing>()
 }

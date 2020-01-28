@@ -1,7 +1,6 @@
 package com.example.andfactory.ui.projects
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -65,12 +64,14 @@ class ProjectListFragment : DaggerFragment(), ProjectListController.RepoClickLis
 
     private fun observeViewModel() {
         viewModel.projectList.observe(viewLifecycleOwner, Observer {
-            controller.projects = it
-        })
-
-        viewModel.errorObserver.observe(viewLifecycleOwner, Observer {
-            Log.d(TAG, it.message)
-            Snackbar.make(binding.root, "エラーが起きたよ", Snackbar.LENGTH_SHORT).show()
+            when (it) {
+                is Status.Success -> controller.projects = it.data
+                is Status.Failure -> Snackbar.make(
+                    binding.root,
+                    "エラーが起きたよ",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
         })
 
     }

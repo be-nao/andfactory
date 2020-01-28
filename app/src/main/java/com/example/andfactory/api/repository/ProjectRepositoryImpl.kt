@@ -13,7 +13,7 @@ class ProjectRepositoryImpl @Inject constructor(
 ) : ProjectRepository {
 
     // TODO 本当はここでTryCatchしたい
-    override suspend fun getRepositoryList(username: String): List<Project>? {
+    override suspend fun getRepositoryList(username: String): List<Project> {
         val projectList = service.getRepositoryList(username)
         projectList.forEach {
             projectDao.upsertProject(it)
