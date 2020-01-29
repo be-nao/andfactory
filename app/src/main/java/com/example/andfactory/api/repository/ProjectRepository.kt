@@ -5,4 +5,6 @@ import com.example.andfactory.api.db.entity.Project
 
 interface ProjectRepository {
     suspend fun getRepositoryList(username: String): List<Project>
+
+    suspend fun getCachedRepositoryList(): List<Project>
 }

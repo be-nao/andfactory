@@ -66,11 +66,13 @@ class ProjectListFragment : DaggerFragment(), ProjectListController.RepoClickLis
         viewModel.projectList.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is Status.Success -> controller.projects = it.data
-                is Status.Failure -> Snackbar.make(
-                    binding.root,
-                    "エラーが起きたよ",
-                    Snackbar.LENGTH_SHORT
-                ).show()
+                is Status.Failure -> {
+                    Snackbar.make(
+                        binding.root,
+                        getString(R.string.error_message),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
             }
         })
 

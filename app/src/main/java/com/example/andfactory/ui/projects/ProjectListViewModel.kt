@@ -31,6 +31,16 @@ class ProjectListViewModel @Inject constructor(private val projectRepository: Pr
                 withContext(Dispatchers.IO) { projectRepository.getRepositoryList(username) }
             }
                 .onSuccess { _projectList.value = Status.Success(it) }
+                .onFailure { loadCached() }
+        }
+    }
+
+    private fun loadCached() {
+        viewModelScope.launch {
+            runCatching {
+                withContext(Dispatchers.IO) { projectRepository.getCachedRepositoryList() }
+            }
+                .onSuccess { _projectList.value = Status.Success(it) }
                 .onFailure { _projectList.value = Status.Failure(it) }
         }
     }

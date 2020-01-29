@@ -20,4 +20,8 @@ class ProjectRepositoryImpl @Inject constructor(
         }
         return projectList
     }
+
+    override suspend fun getCachedRepositoryList(): List<Project> {
+        return projectDao.getAllProject()
+    }
 }
